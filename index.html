@@ -80,9 +80,9 @@
     <input type="text" id="username" placeholder="Enter your username" style="margin-bottom: 25px;">
 
     <label for="password">Password:</label>
-    <input type="password" id="password" placeholder="Enter your password" style="margin-bottom: 25px;">
+    <input type="text" id="password" placeholder="Enter your password" style="margin-bottom: 25px;">
 
-    <button id="SubmitBtn" onclick="checkCredentials()" style="margin-top: 15px;">Login</button>
+    <button onclick="checkCredentials()" style="margin-top: 15px;">Login</button>
 
     <div id="result"></div>
 </div>
@@ -92,11 +92,31 @@
         var usernameInput = document.getElementById('username').value;
         var passwordInput = document.getElementById('password').value;
 
-        if (usernameInput === 'henry' && passwordInput === 'iamahacker') {
-            document.getElementById('result').innerHTML = 'Correct password! You have logged in.';
-        } else {
-            document.getElementById('result').innerHTML = 'Invalid credentials. Wrong username or password.';
-        }
+        const apiUrl = 'https://is-ia-1-server.onrender.com/authenticate';
+        const postData = {
+            username: usernameInput,
+            password: passwordInput
+        };
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(postData)
+        };
+
+        fetch(apiUrl, requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('result').innerHTML = 'Correct password! You have logged in.';
+                } else {
+                    document.getElementById('result').innerHTML = 'Invalid credentials. Wrong username or password.';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
 
     function clearDetails() {
