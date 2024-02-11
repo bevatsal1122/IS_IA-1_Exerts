@@ -108,10 +108,10 @@
         fetch(apiUrl, requestOptions)
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
-                    document.getElementById('result').innerHTML = 'Correct password! You have logged in.';
-                } else {
+                if (data.success == false) {
                     document.getElementById('result').innerHTML = 'Invalid credentials.';
+                } else {
+                    document.getElementById('result').innerHTML = 'Correct password!';
                 }
             })
             .catch(error => {
